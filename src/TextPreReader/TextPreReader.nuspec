@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Gary Palmer</authors>
+    <owners>Gary Palmer</owners>
+    <licenseUrl>https://raw.githubusercontent.com/gary-palmer/TextPreReader/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/gary-palmer/TextPreReader</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/gary-palmer/TextPreReader/master/logo/TPRLogo32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>preprocessor CSV text textfile reader</tags>
+  </metadata>
+</package>
