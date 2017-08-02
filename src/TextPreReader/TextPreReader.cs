@@ -25,15 +25,16 @@ namespace gjp.io
         /// </summary>
         private StreamReader Reader;
 
+        bool disposed = false;
+
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TextPreReader"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
-        public TextPreReader(string path)
+        public TextPreReader(string path) : this(path, new Configuration())
         {
-            new TextPreReader(path, new Configuration());
         }
 
 
@@ -41,9 +42,8 @@ namespace gjp.io
         /// Initializes a new instance of the <see cref="TextPreReader"/> class.
         /// </summary>
         /// <param name="reader">The reader.</param>
-        public TextPreReader(StreamReader reader)
+        public TextPreReader(StreamReader reader) : this(reader, new Configuration())
         {
-            new TextPreReader(reader, new Configuration());
         }
 
 
@@ -60,9 +60,15 @@ namespace gjp.io
                 throw new ArgumentNullException(nameof(path));
             }
 
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
             var reader = File.OpenText(path);
 
-            new TextPreReader(reader, new Configuration());
+            this.Reader = reader;
+            this.Config = config;
         }
 
 
@@ -273,12 +279,12 @@ namespace gjp.io
                 return true;
             }
 
-            if (Config.SkipLinesThatBeginWith?.Count > 0 && Config.SkipLinesThatBeginWith.Any(line.Contains))
+            if (Config.SkipLinesThatBeginWith?.Count > 0 && Config.SkipLinesThatBeginWith.Any(line.StartsWith))
             {
                 return true;
             }
 
-            if (Config.SkipLinesThatEndWith?.Count > 0 && Config.SkipLinesThatEndWith.Any(line.Contains))
+            if (Config.SkipLinesThatEndWith?.Count > 0 && Config.SkipLinesThatEndWith.Any(line.EndsWith))
             {
                 return true;
             }
@@ -292,6 +298,22 @@ namespace gjp.io
         #endregion
 
 
+        // Protected implementation of Dispose pattern.
+        protected override void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
 
+            if (disposing)
+            {
+                // Free any other managed objects here.
+                this.Reader?.Dispose();
+            }
+
+            disposed = true;
+
+            // Call base class implementation.
+            base.Dispose(disposing);
+        }
     }
 }
